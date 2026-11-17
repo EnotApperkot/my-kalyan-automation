@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      /* Это CSS — стили. Делают форму красивой. */
+      body { font-family: Arial; padding: 20px; }
+      .form-group { margin-bottom: 15px; }
+      label { display: block; margin-bottom: 5px; font-weight: bold; }
+      input { padding: 8px; width: 300px; }
+      button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px; }
+    </style>
+  </head>
+  <body>
+    <h2>Новая накладная</h2>
+    
+    <!-- Это HTML-форма. Каждое поле имеет свой id (имя), чтобы скрипт мог его найти. -->
+    <form id="myForm" onsubmit="otpravitFormu(event)">
+      
+      <div class="form-group">
+        <label>Дата:</label>
+        <input type="date" id="data" required>
+      </div>
+
+      <div class="form-group">
+        <label>Поставщик:</label>
+        <input type="text" id="postavshik" placeholder="ООО Ромашка" required>
+      </div>
+
+      <div class="form-group">
+        <label>Товар:</label>
+        <input type="text" id="tovar" placeholder="Свеча" required>
+      </div>
+
+      <div class="form-group">
+        <label>Количество:</label>
+        <input type="number" id="kolichestvo" min="1" required>
+      </div>
+
+      <div class="form-group">
+        <label>Цена:</label>
+        <input type="number" id="cena" min="1" required>
+      </div>
+
+      <button type="submit">Сохранить в таблицу</button>
+    </form>
+
+    <script>
+      // Это JavaScript на стороне клиента (в браузере).
+      function otpravitFormu(event) {
+        event.preventDefault(); // Запрещаем странице перезагружаться при отправке
+        
+        // Собираем данные из полей ввода
+        var dannye = {
+          data: document.getElementById('data').value,
+          postavshik: document.getElementById('postavshik').value,
+          tovar: document.getElementById('tovar').value,
+          kolichestvo: document.getElementById('kolichestvo').value,
+          cena: document.getElementById('cena').value
+        };
+        
+        // Отправляем данные в Apps Script (на "кухню")
+        // google.script.run — это "официант"
+        google.script.run
+          .withSuccessHandler(function() { alert('Накладная добавлена!'); })
+          .dobavitNakladnuyu(dannye);
+      }
+    </script>
+  </body>
+</html>
